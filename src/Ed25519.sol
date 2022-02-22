@@ -3,7 +3,7 @@ pragma solidity ^0.6.8;
 
 import "./Sha512.sol";
 
-library Ed25519 {
+/*library*/ contract Ed25519 {
     // Computes (v^(2^250-1), v^11) mod p
     function pow22501(uint256 v) private pure returns (uint256 p22501, uint256 p11) {
         p11 = mulmod(v, v, 0x7fffffff_ffffffff_ffffffff_ffffffff_ffffffff_ffffffff_ffffffff_ffffffed);
@@ -278,7 +278,7 @@ library Ed25519 {
         bytes32 r,
         bytes32 s,
         bytes memory m
-    ) internal pure returns (bool) {
+    ) public pure returns (bool) {
             uint256 hh;
             // Step 1: compute SHA-512(R, A, M)
             {

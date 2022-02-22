@@ -1,6 +1,3 @@
-.vscode
-node_modules
-
-cache
-artifacts
-typechain
+out/
+cache/
+remappings.txt
