@@ -1,8 +1,0 @@
-{
-  "name": "ed25519",
-  "version": "1.1.0",
-  "description": "Solidity inplementation of Ed25519 verification",
-  "repository": "https://github.com/chengwenxi/Ed25519.git",
-  "author": "chengwenxi <vincent.ch.cn@gmail.com>",
-  "license": "MIT"
-}
