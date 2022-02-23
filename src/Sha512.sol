@@ -9,7 +9,7 @@ library Sha512 {
     // @param message input raw message bytes
     // @return padded message bytes
     function preprocess(bytes memory message)
-        internal
+        private
         pure
         returns (bytes memory)
     {
@@ -35,7 +35,7 @@ library Sha512 {
     }
 
     function bytesToBytes8(bytes memory b, uint256 offset)
-        internal
+        private
         pure
         returns (bytes8)
     {
@@ -47,7 +47,7 @@ library Sha512 {
     }
 
     function cutBlock(bytes memory data, uint256 blockIndex)
-        internal
+        private
         pure
         returns (uint64[16] memory)
     {
@@ -65,7 +65,7 @@ library Sha512 {
     // @param x input num
     // @param n num of positions to circular shift
     // @return uint64
-    function ROTR(uint64 x, uint256 n) internal pure returns (uint64) {
+    function ROTR(uint64 x, uint256 n) private pure returns (uint64) {
         return (x << uint64(64 - n)) + (x >> n);
     }
 
@@ -73,7 +73,7 @@ library Sha512 {
     // @param x input num
     // @param n num of positions to shift
     // @return uint64
-    function SHR(uint64 x, uint256 n) internal pure returns (uint64) {
+    function SHR(uint64 x, uint256 n) private pure returns (uint64) {
         return uint64(x >> n);
     }
 
@@ -86,7 +86,7 @@ library Sha512 {
         uint64 x,
         uint64 y,
         uint64 z
-    ) internal pure returns (uint64) {
+    ) private pure returns (uint64) {
         return (x & y) ^ ((x ^ 0xffffffffffffffff) & z);
     }
 
@@ -99,35 +99,35 @@ library Sha512 {
         uint64 x,
         uint64 y,
         uint64 z
-    ) internal pure returns (uint64) {
+    ) private pure returns (uint64) {
         return (x & y) ^ (x & z) ^ (y & z);
     }
 
     // @notice: sigma0(x) = ROTR(x, 28) ^ ROTR(x, 34) ^ ROTR(x, 39)
     // @param x x
     // @return uint64
-    function sigma0(uint64 x) internal pure returns (uint64) {
+    function sigma0(uint64 x) private pure returns (uint64) {
         return ROTR(x, 28) ^ ROTR(x, 34) ^ ROTR(x, 39);
     }
 
     // @notice: sigma1(x) = ROTR(x, 14) ^ ROTR(x, 18) ^ ROTR(x, 41)
     // @param x x
     // @return uint64
-    function sigma1(uint64 x) internal pure returns (uint64) {
+    function sigma1(uint64 x) private pure returns (uint64) {
         return ROTR(x, 14) ^ ROTR(x, 18) ^ ROTR(x, 41);
     }
 
     // @notice: gamma0(x) = OTR(x, 1) ^ ROTR(x, 8) ^ SHR(x, 7)
     // @param x x
     // @return uint64
-    function gamma0(uint64 x) internal pure returns (uint64) {
+    function gamma0(uint64 x) private pure returns (uint64) {
         return ROTR(x, 1) ^ ROTR(x, 8) ^ SHR(x, 7);
     }
 
     // @notice: gamma1(x) = ROTR(x, 19) ^ ROTR(x, 61) ^ SHR(x, 6)
     // @param x x
     // @return uint64
-    function gamma1(uint64 x) internal pure returns (uint64) {
+    function gamma1(uint64 x) private pure returns (uint64) {
         return ROTR(x, 19) ^ ROTR(x, 61) ^ SHR(x, 6);
     }
 

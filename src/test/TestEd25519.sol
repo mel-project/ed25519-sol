@@ -6,12 +6,6 @@ import 'ds-test/test.sol';
 import "../Ed25519.sol";
 
 contract TestEd25519 is DSTest {
-    Ed25519 ed25519;
-
-    function setUp() public {
-        ed25519 = new Ed25519();
-    }
-
     function testVerify(
         bytes32 k,
         bytes32 r,
@@ -23,6 +17,6 @@ contract TestEd25519 is DSTest {
         bytes32 s = 0xa466fcc69fcffcc8fe1611c41f2412395ada45be36801007a423e8f9ca7e1a0c;
         bytes memory m = abi.encodePacked('Hello, goodbye.');
 
-        assertTrue(ed25519.verify(k, r, s, m));
+        assertTrue(Ed25519.verify(k, r, s, m));
     }
 }
