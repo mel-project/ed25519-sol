@@ -285,15 +285,13 @@ library Ed25519 {
             uint256 hh;
             // Step 1: compute SHA-512(R, A, M)
             {
-                uint256 kLength = k.length;
-                uint256 rLength = r.length;
                 uint256 mLength = m.length;
 
-                bytes memory rs = new bytes(kLength + rLength + mLength);
-                for (uint256 i = 0; i < rLength; ++i) {
+                bytes memory rs = new bytes(64 + mLength);
+                for (uint256 i = 0; i < 32; ++i) {
                     rs[i] = r[i];
                 }
-                for (uint256 i = 0; i < kLength; ++i) {
+                for (uint256 i = 0; i < 32; ++i) {
                     rs[i + 32] = k[i];
                 }
                     for (uint256 i = 0; i < mLength; ++i) {
