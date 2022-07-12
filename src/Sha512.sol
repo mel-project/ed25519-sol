@@ -13,22 +13,25 @@ library Sha512 {
         pure
         returns (bytes memory)
     {
-        uint256 padding = 128 - (message.length % 128);
-        if (message.length % 128 >= 112) {
-            padding = 256 - (message.length % 128);
+        uint256 messageLength = message.length;
+        uint256 padding = 128 - (messageLength % 128);
+        if (messageLength % 128 >= 112) {
+            padding = 256 - (messageLength % 128);
         }
-        bytes memory result = new bytes(message.length + padding);
+        bytes memory result = new bytes(messageLength + padding);
 
-        for (uint256 i = 0; i < message.length; i++) {
+        for (uint256 i = 0; i < messageLength; ++i) {
             result[i] = message[i];
         }
-        result[message.length] = 0x80;
+        result[messageLength] = 0x80;
 
-        uint128 bitSize = uint128(message.length * 8);
+        uint128 bitSize = uint128(messageLength * 8);
         bytes memory bitlength = abi.encodePacked(bitSize);
-        for (uint256 index = 0; index < bitlength.length; index++) {
-            result[result.length - 1 - index] = bitlength[
-                bitlength.length - 1 - index
+        uint256 bitlengthLength = bitlength.length;
+        uint256 resultLength = result.length;
+        for (uint256 index = 0; index < bitlengthLength; ++index) {
+            result[resultLength - 1 - index] = bitlength[
+                bitlengthLength - 1 - index
             ];
         }
         return result;
@@ -40,7 +43,7 @@ library Sha512 {
         returns (bytes8)
     {
         bytes8 out;
-        for (uint256 i = 0; i < 8; i++) {
+        for (uint256 i = 0; i < 8; ++i) {
             out |= bytes8(b[offset + i] & 0xFF) >> (i * 8);
         }
         return out;
@@ -52,7 +55,7 @@ library Sha512 {
         returns (uint64[16] memory)
     {
         uint64[16] memory result;
-        for (uint8 r = 0; r < result.length; r++) {
+        for (uint8 r = 0; r < 16; ++r) {
             result[r] = uint64(bytesToBytes8(data, blockIndex * 128 + r * 8));
         }
         return result;
@@ -248,8 +251,9 @@ library Sha512 {
             ];
 
             bytes memory blocks = preprocess(data);
+            uint256 blocksLength = blocks.length;
 
-            for (uint256 j = 0; j < blocks.length / 128; j++) {
+            for (uint256 j = 0; j < blocksLength / 128; ++j) {
                 uint64[16] memory M = cutBlock(blocks, j);
 
                 fvar.a = H[0];
@@ -261,7 +265,7 @@ library Sha512 {
                 fvar.g = H[6];
                 fvar.h = H[7];
 
-                for (uint256 i = 0; i < 80; i++) {
+                for (uint256 i = 0; i < 80; ++i) {
                     if (i < 16) {
                         W[i] = M[i];
                     } else {

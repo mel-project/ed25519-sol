@@ -285,14 +285,18 @@ library Ed25519 {
             uint256 hh;
             // Step 1: compute SHA-512(R, A, M)
             {
-                bytes memory rs = new bytes(k.length + r.length + m.length);
-                for (uint256 i = 0; i < r.length; i++) {
+                uint256 kLength = k.length;
+                uint256 rLength = r.length;
+                uint256 mLength = m.length;
+
+                bytes memory rs = new bytes(kLength + rLength + mLength);
+                for (uint256 i = 0; i < rLength; ++i) {
                     rs[i] = r[i];
                 }
-                for (uint256 i = 0; i < k.length; i++) {
+                for (uint256 i = 0; i < kLength; ++i) {
                     rs[i + 32] = k[i];
                 }
-                    for (uint256 i = 0; i < m.length; i++) {
+                    for (uint256 i = 0; i < mLength; ++i) {
                     rs[i + 64] = m[i];
                 }
                 uint64[8] memory result = Sha512.hash(rs);
@@ -509,7 +513,7 @@ library Ed25519 {
                 }
                 uint256 cprod = 1;
                 uint256[8][3][2] memory tables_ = tables;
-                for (uint256 i = 0; ; i++) {
+                for (uint256 i = 0; ; ++i) {
                     uint256 cs;
                     uint256 cd;
                     uint256 ct;
@@ -570,7 +574,7 @@ library Ed25519 {
                 cprod = mulmod(cprod, cprod, 0x7fffffff_ffffffff_ffffffff_ffffffff_ffffffff_ffffffff_ffffffff_ffffffed);
                 cprod = mulmod(cprod, cprod, 0x7fffffff_ffffffff_ffffffff_ffffffff_ffffffff_ffffffff_ffffffff_ffffffed);
                 cprod = mulmod(cprod, t, 0x7fffffff_ffffffff_ffffffff_ffffffff_ffffffff_ffffffff_ffffffff_ffffffed);
-                for (uint256 i = 7; ; i--) {
+                for (uint256 i = 7; ; --i) {
                     uint256 cinv =
                         mulmod(
                             cprod,
@@ -642,7 +646,7 @@ library Ed25519 {
                 uint256 vvu = 1;
                 uint256 vvy = 1;
                 uint256 vvv = 1;
-                for (uint256 i = 252; ; i--) {
+                for (uint256 i = 252; ; --i) {
                     uint256 bit = 8 << i;
                     if ((ss & bit) != 0) {
                         uint256 ws;

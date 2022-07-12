@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: Apache-2.0
-pragma solidity 0.8.10;
-pragma experimental ABIEncoderV2;
+pragma solidity 0.8.13;
 
 import 'ds-test/test.sol';
 import "../Ed25519.sol";
