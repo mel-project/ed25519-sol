@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: Apache-2.0
-pragma solidity 0.8.13;
+pragma solidity ^0.8.13;
 
 import "./Sha512.sol";
 
@@ -279,24 +279,27 @@ library Ed25519 {
         bytes32 k,
         bytes32 r,
         bytes32 s,
-        bytes memory m
-    ) internal pure returns (bool) {
+        bytes calldata m
+    ) external pure returns (bool) {
         unchecked {
             uint256 hh;
             // Step 1: compute SHA-512(R, A, M)
             {
                 uint256 mLength = m.length;
-
                 bytes memory rs = new bytes(64 + mLength);
+
                 for (uint256 i = 0; i < 32; ++i) {
                     rs[i] = r[i];
                 }
+
                 for (uint256 i = 0; i < 32; ++i) {
                     rs[i + 32] = k[i];
                 }
-                    for (uint256 i = 0; i < mLength; ++i) {
+
+                for (uint256 i = 0; i < mLength; ++i) {
                     rs[i + 64] = m[i];
                 }
+
                 uint64[8] memory result = Sha512.hash(rs);
 
                 uint256 h0 = uint256(result[0]) | uint256(result[1]) << 64 | uint256(result[2]) << 128 | uint256(result[3]) << 192;
